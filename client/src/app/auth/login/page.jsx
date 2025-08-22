@@ -1,6 +1,10 @@
-"use client"
+"use client";
+
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "../../../redux/store/hooks";
+import { loginUser } from "../../../services/authService";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -9,6 +13,10 @@ export default function LoginPage() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -17,15 +25,31 @@ export default function LoginPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setError("");
     setLoading(true);
-    // Later: dispatch to Redux + call Express API
-    console.log("Login data:", formData);
-    setTimeout(() => {
+
+    try {
+      // Call login service
+      loginUser(dispatch, formData);
+
+      // Artificial delay to allow Redux update (or use useEffect in layout later)
+      setTimeout(() => {
+        setLoading(false);
+        const token = localStorage.getItem("token");
+        if (token) {
+          router.push("/dashboard");
+          router.refresh(); // Refresh to apply auth state
+        } else {
+          setError("Login failed. Invalid credentials.");
+        }
+      }, 1000);
+    } catch (err) {
       setLoading(false);
-      alert("Login would happen here!");
-    }, 1000);
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -34,6 +58,14 @@ export default function LoginPage() {
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Sign in to your account
         </h2>
+
+        {/* Show Error */}
+        {error && (
+          <div className="mt-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded text-sm text-center">
+            {error}
+          </div>
+        )}
+
         <p className="mt-2 text-center text-sm text-gray-600">
           Or{" "}
           <Link href="/auth/register">

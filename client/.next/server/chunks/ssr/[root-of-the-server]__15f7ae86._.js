@@ -133,7 +133,7 @@ const loginUser = (dispatch, credentials)=>{
             user
         }));
     }).catch((err)=>{
-        const message = err.response?.data?.message || "Invalid credentials";
+        const message = err.response?.data?.message || "Invalid email or Password";
         dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$redux$2f$Slices$2f$AuthSlice$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["setAuthFail"])(message));
     });
 };

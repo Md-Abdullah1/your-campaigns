@@ -1,13 +1,14 @@
 // src/components/Navbar.jsx
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAppSelector } from "../../redux/store/hooks";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user } = useAppSelector((state) => state.auth);
   const [hideNavbar, setHideNavbar] = useState(false);
   const handleLogout = () => {
@@ -17,16 +18,13 @@ export default function Navbar() {
   };
 
   // Don't show navbar on auth pages
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname;
-      if (path === "/auth/login" || path === "/auth/register" || path === "/") {
-        setHideNavbar(true);
-      }
-    }
-  }, []);
-  if (hideNavbar) return null;
+  if (
+    pathname === "/auth/login" ||
+    pathname === "/auth/register" ||
+    pathname === "/"
+  ) {
+    return null;
+  }
   return (
     <nav className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
