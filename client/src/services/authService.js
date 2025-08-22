@@ -31,7 +31,8 @@ export const loginUser = (dispatch, credentials) => {
       dispatch(setAuthSuccess({ token, user }));
     })
     .catch((err) => {
-      const message = err.response?.data?.message || "Invalid credentials";
+      const message =
+        err.response?.data?.message || "Invalid email or Password";
       dispatch(setAuthFail(message));
     });
 };
