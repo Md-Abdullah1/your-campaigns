@@ -60,7 +60,7 @@ const loginUser = (dispatch, credentials)=>{
         }));
     }).catch((err)=>{
         var _err_response_data, _err_response;
-        const message = ((_err_response = err.response) === null || _err_response === void 0 ? void 0 : (_err_response_data = _err_response.data) === null || _err_response_data === void 0 ? void 0 : _err_response_data.message) || "Invalid credentials";
+        const message = ((_err_response = err.response) === null || _err_response === void 0 ? void 0 : (_err_response_data = _err_response.data) === null || _err_response_data === void 0 ? void 0 : _err_response_data.message) || "Invalid email or Password";
         dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$redux$2f$Slices$2f$AuthSlice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["setAuthFail"])(message));
     });
 };

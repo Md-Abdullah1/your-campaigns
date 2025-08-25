@@ -1,41 +1,67 @@
-// // models/index.js
-// const sequelize = require("../config/database");
-// const User = require("./User")(sequelize);
-// const Campaign = require("./Campaign")(sequelize);
+// const { Sequelize, DataTypes } = require("sequelize");
 
-// // Define associations
-// User.hasMany(Campaign, { foreignKey: "userId", onDelete: "CASCADE" });
-// Campaign.belongsTo(User, { foreignKey: "userId" });
+// const sequelize = new Sequelize("campaign_db", "postgres", "Abdullah@ahil.1", {
+//   host: "localhost",
+//   dialect: "postgres",
+//   logging: false, // turn off SQL query logs in console
+// });
 
-// const db = {
-//   sequelize,
-//   User,
-//   Campaign,
-// };
+// // Test connection
+// sequelize
+//   .authenticate()
+//   .then(() => console.log("✅ Database connected..."))
+//   .catch((err) => console.error("❌ Error: " + err));
 
-// server/models/index.js
-const { Sequelize, DataTypes } = require("sequelize");
+// const db = {};
 
-const sequelize = new Sequelize("campaign_db", "postgres", "Abdullah@ahil.1", {
-  host: "localhost",
-  dialect: "postgres",
-  logging: false, // turn off SQL query logs in console
-});
+// // Import models
+// db.User = require("./User")(sequelize, DataTypes);
+
+// // Add more models here later
+// // db.Campaign = require("./Campaign")(sequelize, DataTypes);
+
+// db.sequelize = sequelize;
+// db.Sequelize = Sequelize;
+
+// module.exports = db;
+
+// models/index.js
+const { Sequelize } = require("sequelize");
+const config = require("../config/database"); // ← DB config from .env
+
+// Create Sequelize instance
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  {
+    host: config.host,
+    dialect: "postgres",
+    logging: false,
+  }
+);
 
 // Test connection
 sequelize
   .authenticate()
   .then(() => console.log("✅ Database connected..."))
-  .catch((err) => console.error("❌ Error: " + err));
+  .catch((err) => console.error("❌ DB connection error:", err));
 
 const db = {};
 
-// Import models
-db.User = require("./User")(sequelize, DataTypes);
+// Load models
+db.User = require("./User")(sequelize, Sequelize);
+db.Campaign = require("./Campaign")(sequelize, Sequelize);
+db.Lead = require("./Lead")(sequelize, Sequelize); // if exists
 
-// Add more models here later
-// db.Campaign = require("./Campaign")(sequelize, DataTypes);
+// Define associations
+db.User.hasMany(db.Campaign, { foreignKey: "userId", onDelete: "CASCADE" });
+db.Campaign.belongsTo(db.User, { foreignKey: "userId" });
 
+db.Campaign.hasMany(db.Lead, { foreignKey: "campaignId", onDelete: "CASCADE" });
+db.Lead.belongsTo(db.Campaign, { foreignKey: "campaignId" });
+
+// Export
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
