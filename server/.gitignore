@@ -19,3 +19,4 @@ dist/
 
 # Database config
 config/
+config/database.js 
