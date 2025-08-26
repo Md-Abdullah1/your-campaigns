@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "../../redux/store/hooks";
 import { useEffect } from "react";
+import { getAuthentication } from "@/helpers/getAuthentication";
 
 export default function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const isAuthenticated = getAuthentication();
   const router = useRouter();
 
   useEffect(() => {

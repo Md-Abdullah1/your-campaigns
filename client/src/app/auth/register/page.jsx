@@ -2,12 +2,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../../../redux/store/hooks";
 import { registerUser } from "../../../services/authService";
 
 export default function RegisterPage() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,9 +20,6 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const dispatch = useAppDispatch();
-  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -56,6 +56,15 @@ export default function RegisterPage() {
       }
     }, 1000);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        router.push("/dashboard");
+      }
+    }
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">

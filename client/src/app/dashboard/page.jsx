@@ -1,4 +1,3 @@
-// src/app/dashboard/page.js
 import ProtectedRoute from "@/components/layouts/ProtectedRoute";
 import Link from "next/link";
 
@@ -7,7 +6,7 @@ const kpis = {
   totalCampaigns: 12,
   activeCampaigns: 5,
   totalSpend: 48500,
-  totalLeads: 240, // ← From API later
+  totalLeads: 240,
   conversionRate: "2.1%",
 };
 

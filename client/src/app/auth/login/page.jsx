@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../../../redux/store/hooks";
 import { loginUser } from "../../../services/authService";
 
 export default function LoginPage() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,9 +17,6 @@ export default function LoginPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const dispatch = useAppDispatch();
-  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -52,6 +52,14 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        router.push("/dashboard");
+      }
+    }
+  }, [router]);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
