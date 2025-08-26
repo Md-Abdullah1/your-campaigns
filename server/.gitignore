@@ -1,3 +1,21 @@
-.env
+# Node.js
+node_modules/
+npm-debug.log*
 
-/node_modules
+
+# Build output
+build/
+dist/
+*.log
+
+
+# Environment 
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+
+# Database config
+config/

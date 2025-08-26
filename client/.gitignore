@@ -1,1 +1,11 @@
-node_modules
+# node modules  
+node_modules/
+npm-debug.log
+
+
+# Build outputs
+/dist
+/build
+/out
+/.next
+.next-build
