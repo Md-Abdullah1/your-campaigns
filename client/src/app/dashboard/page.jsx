@@ -85,13 +85,13 @@ export default function DashboardPage() {
                     <span>
                       <span className="text-indigo-600 font-medium">
                         {chartData.clicks[i].toLocaleString()}
-                      </span>{" "}
+                      </span>
                       clicks
                     </span>
                     <span>
                       <span className="text-green-600 font-medium">
                         {chartData.conversions[i]}
-                      </span>{" "}
+                      </span>
                       conversions
                     </span>
                   </div>
