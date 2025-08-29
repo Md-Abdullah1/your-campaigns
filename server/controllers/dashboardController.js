@@ -1,4 +1,3 @@
-// controllers/dashboardController.js
 const { Campaign } = require("../models");
 
 const getKPIs = async (req, res) => {
